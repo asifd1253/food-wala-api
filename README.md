@@ -9,13 +9,13 @@ The project is intentionally simple. It is only for demonstrating
 database setup and mock-data population. It does not build a complete
 food-ordering application.
 
-------------------------------------------------------------------------
+---
 
 ## 1. What We Are Building
 
 The final flow is:
 
-``` text
+```text
 GitHub Mock JSON
       |
       v
@@ -41,14 +41,14 @@ restaurant table          menu table
 
 The project contains:
 
-``` text
+```text
 FoodWala
 |
 +-- Java Resources
 |   |
 |   +-- src/main/java
 |       |
-|       +-- com.foodworld.util
+|       +-- com.foodwala.util
 |           |
 |           +-- DBConnection.java
 |           +-- RestaurantDataImporter.java
@@ -66,41 +66,41 @@ FoodWala
             +-- jackson-annotations-2.22.jar
 ```
 
-------------------------------------------------------------------------
+---
 
 # 2. Requirements
 
 Install/have the following:
 
--   Eclipse IDE
--   JDK 21
--   Apache Tomcat 10.1
--   MySQL Server
--   MySQL Workbench
--   Internet connection
+- Eclipse IDE
+- JDK 21
+- Apache Tomcat 10.1
+- MySQL Server
+- MySQL Workbench
+- Internet connection
 
 The Java importers use Java's `HttpClient`, so Java 11 or newer is
 required. This guide uses Java 21.
 
-------------------------------------------------------------------------
+---
 
 # 3. Mock JSON Data
 
 The restaurant JSON is hosted in the `food-world-api` GitHub repository:
 
-``` text
+```text
 https://raw.githubusercontent.com/asifd1253/food-world-api/main/restaurants/restaurants.json
 ```
 
 The menu JSON files are hosted under:
 
-``` text
+```text
 https://raw.githubusercontent.com/asifd1253/food-world-api/main/menu/
 ```
 
 The Java importers download these files directly from GitHub.
 
-------------------------------------------------------------------------
+---
 
 # 4. Create the Eclipse Dynamic Web Project
 
@@ -108,7 +108,7 @@ Open Eclipse.
 
 Go to:
 
-``` text
+```text
 File
     -> New
         -> Dynamic Web Project
@@ -116,19 +116,19 @@ File
 
 Create the project with:
 
-``` text
+```text
 Project Name: FoodWala
 ```
 
 Use:
 
-``` text
+```text
 Target Runtime: Apache Tomcat v10.1
 ```
 
 Use:
 
-``` text
+```text
 Java: JavaSE-21
 ```
 
@@ -137,7 +137,7 @@ Finish the project creation.
 You do not need to create servlets, JSP pages, controllers, services,
 repositories, or a frontend for this setup.
 
-------------------------------------------------------------------------
+---
 
 # 5. Create the MySQL Database
 
@@ -145,7 +145,7 @@ Open MySQL Workbench.
 
 Run:
 
-``` sql
+```sql
 CREATE DATABASE foodwala;
 
 USE foodwala;
@@ -153,23 +153,23 @@ USE foodwala;
 
 Verify:
 
-``` sql
+```sql
 SHOW DATABASES;
 ```
 
 You should see:
 
-``` text
+```text
 foodwala
 ```
 
-------------------------------------------------------------------------
+---
 
 # 6. Create the Restaurant Table
 
 Run:
 
-``` sql
+```sql
 CREATE TABLE restaurant (
     restaurant_id INT PRIMARY KEY AUTO_INCREMENT,
     restaurant_name VARCHAR(255) NOT NULL,
@@ -186,7 +186,7 @@ CREATE TABLE restaurant (
 
 Check the table:
 
-``` sql
+```sql
 DESCRIBE restaurant;
 ```
 
@@ -194,7 +194,7 @@ DESCRIBE restaurant;
 
 `restaurant_id` is:
 
-``` sql
+```sql
 AUTO_INCREMENT
 ```
 
@@ -202,7 +202,7 @@ Therefore, Java does not need to manually assign restaurant IDs.
 
 When 20 restaurants are inserted into an empty table, MySQL generates:
 
-``` text
+```text
 1
 2
 3
@@ -212,13 +212,13 @@ When 20 restaurants are inserted into an empty table, MySQL generates:
 
 Do NOT manually hardcode `restaurant_id` values in the importer.
 
-------------------------------------------------------------------------
+---
 
 # 7. Create the Menu Table
 
 Run:
 
-``` sql
+```sql
 CREATE TABLE menu (
     menu_id INT PRIMARY KEY AUTO_INCREMENT,
     restaurant_id INT NOT NULL,
@@ -239,13 +239,13 @@ CREATE TABLE menu (
 
 Check the table:
 
-``` sql
+```sql
 DESCRIBE menu;
 ```
 
 The important relationship is:
 
-``` text
+```text
 restaurant.restaurant_id
           |
           |
@@ -255,7 +255,7 @@ menu.restaurant_id
 
 One restaurant can have many menu items.
 
-------------------------------------------------------------------------
+---
 
 # 8. Add MySQL Connector/J
 
@@ -263,15 +263,16 @@ Download MySQL Connector/J.
 
 For this setup, the JAR used is:
 
-``` text
+```text
 mysql-connector-j-9.4.0.jar
 ```
-The JAR will be in Download JARs folder and download the raw file from there like 
+
+The JAR will be in Download JARs folder and download the raw file from there like
 <img width="764" height="152" alt="image" src="https://github.com/user-attachments/assets/9031cbd3-9119-44af-aeb4-c570b9b63ef0" />
 
 In Eclipse, put the JAR here:
 
-``` text
+```text
 FoodWala
     -> src
         -> main
@@ -287,11 +288,11 @@ Libraries / build path.
 You do not need to manually use `Add JARs` if the JAR is correctly
 placed inside:
 
-``` text
+```text
 WEB-INF/lib
 ```
 
-------------------------------------------------------------------------
+---
 
 # 9. Add Jackson Libraries
 
@@ -299,23 +300,24 @@ The restaurant and menu JSON files are parsed using Jackson.
 
 Add these three JAR files to:
 
-``` text
+```text
 FoodWala/src/main/webapp/WEB-INF/lib
 ```
 
 Required files:
 
-``` text
+```text
 jackson-databind-2.22.3.jar
 jackson-core-2.22.3.jar
 jackson-annotations-2.22.jar
 ```
-so, similarly how you downloaded the mysql jar file download the Above 3 JARs 
+
+so, similarly how you downloaded the mysql jar file download the Above 3 JARs
 <img width="737" height="151" alt="image" src="https://github.com/user-attachments/assets/09b78ebb-7a8a-4ffd-9bc8-752efd63991e" />
 
 The final `WEB-INF/lib` should contain:
 
-``` text
+```text
 mysql-connector-j-9.4.0.jar
 jackson-databind-2.22.3.jar
 jackson-core-2.22.3.jar
@@ -326,7 +328,7 @@ jackson-annotations-2.22.jar
 
 Do not try to download:
 
-``` text
+```text
 jackson-annotations-2.22.3.jar
 ```
 
@@ -334,59 +336,59 @@ That version is not available.
 
 The version used here is:
 
-``` text
+```text
 jackson-annotations-2.22.jar
 ```
 
 The three Jackson components are:
 
-``` text
+```text
 jackson-databind
 jackson-core
 jackson-annotations
 ```
 
-------------------------------------------------------------------------
+---
 
 # 10. Create the Java Package
 
 In Eclipse:
 
-``` text
+```text
 Java Resources
     -> src/main/java
 ```
 
 Create the package:
 
-``` text
-com.foodworld.util
+```text
+com.foodwala.util
 ```
 
 The final package will contain:
 
-``` text
-com.foodworld.util
+```text
+com.foodwala.util
     |
     +-- DBConnection.java
     +-- RestaurantDataImporter.java
     +-- MenuDataImporter.java
 ```
 
-------------------------------------------------------------------------
+---
 
 # 11. Create DBConnection.java
 
 Create:
 
-``` text
+```text
 DBConnection.java
 ```
 
 Use:
 
-``` java
-package com.foodworld.util;
+```java
+package com.foodwala.util;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -411,7 +413,7 @@ public class DBConnection {
 
 Change:
 
-``` java
+```java
 "YOUR_MYSQL_PASSWORD"
 ```
 
@@ -419,7 +421,7 @@ to your local MySQL root password.
 
 If your MySQL root account does not have a password:
 
-``` java
+```java
 private static final String PASSWORD = "";
 ```
 
@@ -430,13 +432,13 @@ Do not commit your real MySQL password to GitHub.
 For a real project, use environment variables or another secure
 configuration mechanism.
 
-------------------------------------------------------------------------
+---
 
 # 12. Create RestaurantDataImporter.java
 
 Create:
 
-``` text
+```text
 RestaurantDataImporter.java
 ```
 
@@ -445,13 +447,13 @@ project.
 
 The class must be in:
 
-``` text
-package com.foodworld.util;
+```text
+package com.foodwala.util;
 ```
 
 The importer uses:
 
-``` text
+```text
 https://raw.githubusercontent.com/asifd1253/food-world-api/main/restaurants/restaurants.json
 ```
 
@@ -461,17 +463,17 @@ restaurants into MySQL.
 
 The importer connects using:
 
-``` java
+```java
 DBConnection.getConnection()
 ```
 
-------------------------------------------------------------------------
+---
 
 # 13. Important Restaurant ID Concept
 
 The restaurant table has:
 
-``` sql
+```sql
 restaurant_id INT PRIMARY KEY AUTO_INCREMENT
 ```
 
@@ -481,7 +483,7 @@ The database creates it automatically.
 
 For example, after importing 20 restaurants:
 
-``` text
+```text
 restaurant_id | restaurant_name
 ---------------+----------------
 1              | Restaurant A
@@ -495,7 +497,7 @@ This is the correct approach.
 
 Do not write code such as:
 
-``` java
+```java
 restaurant_id = 1;
 restaurant_id = 2;
 ...
@@ -504,7 +506,7 @@ restaurant_id = 20;
 
 MySQL is responsible for generating those IDs.
 
-------------------------------------------------------------------------
+---
 
 # 14. Run RestaurantDataImporter
 
@@ -514,14 +516,14 @@ In Eclipse:
 2.  Right-click inside the editor.
 3.  Select:
 
-``` text
+```text
 Run As
     -> Java Application
 ```
 
 The importer will:
 
-``` text
+```text
 Download JSON
     |
     v
@@ -549,7 +551,7 @@ again.
 
 After a successful run, verify:
 
-``` sql
+```sql
 USE foodwala;
 
 SELECT COUNT(*) AS total_restaurants
@@ -558,24 +560,24 @@ FROM restaurant;
 
 Expected result:
 
-``` text
+```text
 20
 ```
 
-------------------------------------------------------------------------
+---
 
 # 15. Check the Restaurant Data
 
 Run:
 
-``` sql
+```sql
 SELECT *
 FROM restaurant;
 ```
 
 Also check the generated IDs:
 
-``` sql
+```sql
 SELECT
     restaurant_id,
     restaurant_name
@@ -585,37 +587,37 @@ ORDER BY restaurant_id;
 
 You should see restaurant IDs generated by MySQL.
 
-------------------------------------------------------------------------
+---
 
 # 16. Create MenuDataImporter.java
 
 Create:
 
-``` text
+```text
 MenuDataImporter.java
 ```
 
 Place it in:
 
-``` text
-com.foodworld.util
+```text
+com.foodwala.util
 ```
 
 The package declaration should be:
 
-``` java
-package com.foodworld.util;
+```java
+package com.foodwala.util;
 ```
 
 The importer uses the menu files from:
 
-``` text
+```text
 https://raw.githubusercontent.com/asifd1253/food-world-api/main/menu/
 ```
 
 The current importer processes these 20 menu JSON files:
 
-``` text
+```text
 118256.json
 17036.json
 17310.json
@@ -638,13 +640,13 @@ The current importer processes these 20 menu JSON files:
 81642.json
 ```
 
-------------------------------------------------------------------------
+---
 
 # 17. How Menu Data Finds the Correct Restaurant
 
 Do not hardcode:
 
-``` text
+```text
 restaurant_id = 1
 restaurant_id = 2
 ...
@@ -656,7 +658,7 @@ ID.
 
 Conceptually:
 
-``` text
+```text
 Menu JSON
    |
    v
@@ -674,7 +676,7 @@ Insert menu item using that restaurant_id
 
 For example:
 
-``` text
+```text
 Restaurant Name:
 Aligarh House
 
@@ -684,13 +686,13 @@ restaurant_id = 3
 
 Then its menu items are inserted using:
 
-``` text
+```text
 menu.restaurant_id = 3
 ```
 
 This keeps the foreign-key relationship correct.
 
-------------------------------------------------------------------------
+---
 
 # 18. Run MenuDataImporter
 
@@ -698,7 +700,7 @@ In Eclipse:
 
 1.  Open:
 
-``` text
+```text
 MenuDataImporter.java
 ```
 
@@ -706,7 +708,7 @@ MenuDataImporter.java
 
 3.  Select:
 
-``` text
+```text
 Run As
     -> Java Application
 ```
@@ -716,14 +718,14 @@ The importer downloads the menu JSON files and inserts the menu records.
 The importer uses the `restaurant` table to find the correct MySQL
 restaurant ID before inserting menu items.
 
-------------------------------------------------------------------------
+---
 
 # 19. Expected Menu Import Result
 
 The successful run in this setup produced:
 
-``` text
-FOODWORLD MENU IMPORT COMPLETED
+```text
+foodwala MENU IMPORT COMPLETED
 
 Restaurants Imported : 20
 Total Menu Items     : 3354
@@ -732,30 +734,30 @@ Total Menu Items     : 3354
 Your exact number can change if the mock JSON data is updated in the
 GitHub repository.
 
-------------------------------------------------------------------------
+---
 
 # 20. Verify the Menu Table
 
 Run:
 
-``` sql
+```sql
 SELECT COUNT(*) AS total_menu_items
 FROM menu;
 ```
 
 The current successful run produced:
 
-``` text
+```text
 3354
 ```
 
-------------------------------------------------------------------------
+---
 
 # 21. Verify Restaurant + Menu Relationship
 
 Run:
 
-``` sql
+```sql
 SELECT
     r.restaurant_id,
     r.restaurant_name,
@@ -772,7 +774,7 @@ ORDER BY
 
 This shows:
 
-``` text
+```text
 restaurant_id
 restaurant_name
 number of menu items
@@ -780,13 +782,13 @@ number of menu items
 
 for every restaurant.
 
-------------------------------------------------------------------------
+---
 
 # 22. Verify Sample Menu Records
 
 Run:
 
-``` sql
+```sql
 SELECT
     m.menu_id,
     m.restaurant_id,
@@ -803,13 +805,13 @@ LIMIT 20;
 
 This confirms that menu records are correctly connected to restaurants.
 
-------------------------------------------------------------------------
+---
 
 # 23. Final Database Structure
 
 After completing the setup, the database looks like:
 
-``` text
+```text
 foodwala
 |
 +-- restaurant
@@ -839,13 +841,13 @@ foodwala
     +-- item_image_url
 ```
 
-------------------------------------------------------------------------
+---
 
 # 24. Complete Process in Short
 
 A new student can remember the process as:
 
-``` text
+```text
 1. Install JDK
         ↓
 2. Install Eclipse
@@ -864,7 +866,7 @@ A new student can remember the process as:
         ↓
 9. Add Jackson JARs
         ↓
-10. Create com.foodworld.util package
+10. Create com.foodwala.util package
         ↓
 11. Create DBConnection.java
         ↓
@@ -883,7 +885,7 @@ A new student can remember the process as:
 18. Verify restaurant-menu relationship
 ```
 
-------------------------------------------------------------------------
+---
 
 # 25. Troubleshooting
 
@@ -891,91 +893,91 @@ A new student can remember the process as:
 
 If you see:
 
-``` text
+```text
 Access denied for user 'root'
 ```
 
 Check:
 
-``` java
+```java
 private static final String USER = "root";
 private static final String PASSWORD = "YOUR_MYSQL_PASSWORD";
 ```
 
 Make sure the password is correct.
 
-------------------------------------------------------------------------
+---
 
 ## Unknown Database
 
 If you see:
 
-``` text
+```text
 Unknown database 'foodwala'
 ```
 
 Run:
 
-``` sql
+```sql
 CREATE DATABASE foodwala;
 ```
 
 Then:
 
-``` sql
+```sql
 USE foodwala;
 ```
 
-------------------------------------------------------------------------
+---
 
 ## Table Does Not Exist
 
 If you see:
 
-``` text
+```text
 Table 'foodwala.restaurant' doesn't exist
 ```
 
 Create the tables using the SQL in this guide.
 
-------------------------------------------------------------------------
+---
 
 ## Jackson Class Not Found
 
 If you see something such as:
 
-``` text
+```text
 ClassNotFoundException
 ```
 
 or:
 
-``` text
+```text
 NoClassDefFoundError
 ```
 
 check:
 
-``` text
+```text
 WEB-INF/lib
 ```
 
 It should contain:
 
-``` text
+```text
 mysql-connector-j-9.4.0.jar
 jackson-databind-2.22.3.jar
 jackson-core-2.22.3.jar
 jackson-annotations-2.22.jar
 ```
 
-------------------------------------------------------------------------
+---
 
 ## Restaurant Not Found During Menu Import
 
 If the menu importer says:
 
-``` text
+```text
 Restaurant not found in MySQL
 ```
 
@@ -983,7 +985,7 @@ make sure the restaurant importer was successfully executed first.
 
 The correct order is:
 
-``` text
+```text
 RestaurantDataImporter
         ↓
 restaurant table populated
@@ -995,7 +997,7 @@ menu table populated
 
 Do not run the menu importer first.
 
-------------------------------------------------------------------------
+---
 
 ## Duplicate Restaurants
 
@@ -1009,26 +1011,26 @@ If you want to completely start over, you can clear the tables.
 Because `menu` has a foreign key to `restaurant`, clear the menu table
 first:
 
-``` sql
+```sql
 DELETE FROM menu;
 ```
 
 Then:
 
-``` sql
+```sql
 DELETE FROM restaurant;
 ```
 
 If you want the next restaurant import to start again from ID 1 in a
 development/demo database:
 
-``` sql
+```sql
 ALTER TABLE restaurant AUTO_INCREMENT = 1;
 ```
 
 Then run the restaurant importer again.
 
-------------------------------------------------------------------------
+---
 
 # 26. Important Notes for Students
 
@@ -1036,13 +1038,13 @@ Then run the restaurant importer again.
 
 `restaurant_id`:
 
-``` text
+```text
 Generated automatically by MySQL
 ```
 
 `restaurant_admin_id`:
 
-``` text
+```text
 A separate column representing an admin/user reference
 ```
 
@@ -1050,58 +1052,58 @@ They are not the same thing.
 
 The restaurant primary key is:
 
-``` text
+```text
 restaurant_id
 ```
 
 The menu foreign key is:
 
-``` text
+```text
 menu.restaurant_id
 ```
 
 The relationship is:
 
-``` text
+```text
 restaurant.restaurant_id
             |
             v
 menu.restaurant_id
 ```
 
-------------------------------------------------------------------------
+---
 
 # 27. Final Verification Checklist
 
 Before considering the setup complete, verify:
 
--   [ ] Eclipse Dynamic Web Project created
--   [ ] JDK 21 configured
--   [ ] Tomcat 10.1 configured
--   [ ] `foodwala` database created
--   [ ] `restaurant` table created
--   [ ] `menu` table created
--   [ ] MySQL Connector/J added
--   [ ] Jackson Databind added
--   [ ] Jackson Core added
--   [ ] Jackson Annotations added
--   [ ] `DBConnection.java` created
--   [ ] `RestaurantDataImporter.java` created
--   [ ] Restaurant importer executed successfully
--   [ ] 20 restaurants inserted
--   [ ] `MenuDataImporter.java` created
--   [ ] Menu importer executed successfully
--   [ ] Menu records inserted
--   [ ] Restaurant-menu relationship verified
+- [ ] Eclipse Dynamic Web Project created
+- [ ] JDK 21 configured
+- [ ] Tomcat 10.1 configured
+- [ ] `foodwala` database created
+- [ ] `restaurant` table created
+- [ ] `menu` table created
+- [ ] MySQL Connector/J added
+- [ ] Jackson Databind added
+- [ ] Jackson Core added
+- [ ] Jackson Annotations added
+- [ ] `DBConnection.java` created
+- [ ] `RestaurantDataImporter.java` created
+- [ ] Restaurant importer executed successfully
+- [ ] 20 restaurants inserted
+- [ ] `MenuDataImporter.java` created
+- [ ] Menu importer executed successfully
+- [ ] Menu records inserted
+- [ ] Restaurant-menu relationship verified
 
-------------------------------------------------------------------------
+---
 
 # 28. Result
 
 At the end of this setup, you have a simple MySQL database populated
 from GitHub mock data:
 
-``` text
+```text
 foodwala
 |
 +-- restaurant
@@ -1116,7 +1118,7 @@ foodwala
 The important concept is that the Java importers automate the process
 of:
 
-``` text
+```text
 JSON
   ↓
 Java
