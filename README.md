@@ -266,6 +266,8 @@ For this setup, the JAR used is:
 ``` text
 mysql-connector-j-9.4.0.jar
 ```
+The JAR will be in Download JARs folder and download the raw file from there like 
+<img width="764" height="152" alt="image" src="https://github.com/user-attachments/assets/9031cbd3-9119-44af-aeb4-c570b9b63ef0" />
 
 In Eclipse, put the JAR here:
 
@@ -294,6 +296,9 @@ WEB-INF/lib
 # 9. Add Jackson Libraries
 
 The restaurant and menu JSON files are parsed using Jackson.
+
+so, similarly how you downloaded the mysql jar file download the below 3 JARs 
+<img width="737" height="151" alt="image" src="https://github.com/user-attachments/assets/09b78ebb-7a8a-4ffd-9bc8-752efd63991e" />
 
 Add these three JAR files to:
 
