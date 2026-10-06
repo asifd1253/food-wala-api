@@ -268,7 +268,10 @@ mysql-connector-j-9.4.0.jar
 ```
 
 The JAR will be in Download JARs folder and download the raw file from there like
-<img width="764" height="152" alt="image" src="https://github.com/user-attachments/assets/9031cbd3-9119-44af-aeb4-c570b9b63ef0" />
+
+
+<img width="733" height="146" alt="image" src="https://github.com/user-attachments/assets/041ea196-bc6e-4b3f-ad88-be7ffdf39df7" />
+
 
 In Eclipse, put the JAR here:
 
@@ -313,7 +316,10 @@ jackson-annotations-2.22.jar
 ```
 
 so, similarly how you downloaded the mysql jar file download the Above 3 JARs
-<img width="737" height="151" alt="image" src="https://github.com/user-attachments/assets/09b78ebb-7a8a-4ffd-9bc8-752efd63991e" />
+
+
+<img width="734" height="142" alt="image" src="https://github.com/user-attachments/assets/bbb7d4c7-b639-4a43-8989-6b6563700dc7" />
+
 
 The final `WEB-INF/lib` should contain:
 
