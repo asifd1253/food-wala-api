@@ -310,7 +310,7 @@ jackson-databind-2.22.3.jar
 jackson-core-2.22.3.jar
 jackson-annotations-2.22.jar
 ```
-so, similarly how you downloaded the mysql jar file download the below 3 JARs 
+so, similarly how you downloaded the mysql jar file download the Above 3 JARs 
 <img width="737" height="151" alt="image" src="https://github.com/user-attachments/assets/09b78ebb-7a8a-4ffd-9bc8-752efd63991e" />
 
 The final `WEB-INF/lib` should contain:
