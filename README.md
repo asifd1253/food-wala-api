@@ -449,7 +449,7 @@ RestaurantDataImporter.java
 ```
 
 Use the existing `RestaurantDataImporter` code supplied with this
-project.
+project present in "JAVA Files" folder.
 
 The class must be in:
 
