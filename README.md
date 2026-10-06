@@ -86,16 +86,16 @@ required. This guide uses Java 21.
 
 # 3. Mock JSON Data
 
-The restaurant JSON is hosted in the `food-world-api` GitHub repository:
+The restaurant JSON is hosted in the `food-wala-api` GitHub repository:
 
 ```text
-https://raw.githubusercontent.com/asifd1253/food-world-api/main/restaurants/restaurants.json
+https://raw.githubusercontent.com/asifd1253/food-wala-api/main/restaurants/restaurants.json
 ```
 
 The menu JSON files are hosted under:
 
 ```text
-https://raw.githubusercontent.com/asifd1253/food-world-api/main/menu/
+https://raw.githubusercontent.com/asifd1253/food-wala-api/main/menu/
 ```
 
 The Java importers download these files directly from GitHub.
@@ -454,7 +454,7 @@ package com.foodwala.util;
 The importer uses:
 
 ```text
-https://raw.githubusercontent.com/asifd1253/food-world-api/main/restaurants/restaurants.json
+https://raw.githubusercontent.com/asifd1253/food-wala-api/main/restaurants/restaurants.json
 ```
 
 It downloads the JSON using Java `HttpClient`, parses it using Jackson,
@@ -612,7 +612,7 @@ package com.foodwala.util;
 The importer uses the menu files from:
 
 ```text
-https://raw.githubusercontent.com/asifd1253/food-world-api/main/menu/
+https://raw.githubusercontent.com/asifd1253/food-wala-api/main/menu/
 ```
 
 The current importer processes these 20 menu JSON files:
